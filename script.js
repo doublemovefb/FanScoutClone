@@ -127,3 +127,67 @@ function populateBigBoard() {
         boardDiv.appendChild(playerDiv);
     });
 }
+const playerProfiles = {
+    "Ashton Jeanty": {
+        college: "Boise State",
+        position: "RB",
+        height: "5'8\"",
+        weight: "210 lbs",
+        skills: ["Vision", "Explosiveness", "Durability", "Pass Blocking", "Receiving"]
+    },
+    "Omarion Hampton": {
+        college: "North Carolina",
+        position: "RB",
+        height: "6'0\"",
+        weight: "220 lbs",
+        skills: ["Vision", "Power", "Burst", "Elusiveness", "Ball Security"]
+    },
+    "TreVeyon Henderson": {
+        college: "Ohio State",
+        position: "RB",
+        height: "5'10\"",
+        weight: "214 lbs",
+        skills: ["Vision", "Acceleration", "Agility", "Pass Protection", "Receiving"]
+    },
+    "Quinshon Judkins": {
+        college: "Ohio State",
+        position: "RB",
+        height: "5'11\"",
+        weight: "210 lbs",
+        skills: ["Vision", "Speed", "Elusiveness", "Physicality", "Durability"]
+    },
+    "Kaleb Johnson": {
+        college: "Iowa",
+        position: "RB",
+        height: "6'0\"",
+        weight: "225 lbs",
+        skills: ["Power", "Burst", "Vision", "Receiving", "Tackling Evasion"]
+    },
+    "Cameron Skattebo": {
+        college: "Arizona State",
+        position: "RB",
+        height: "5'10\"",
+        weight: "215 lbs",
+        skills: ["Vision", "Elusiveness", "Pass Blocking", "Speed", "Power"]
+    },
+    "Jo'Quavious Marks": {
+        college: "USC",
+        position: "RB",
+        height: "5'11\"",
+        weight: "205 lbs",
+        skills: ["Explosiveness", "Receiving", "Vision", "Agility", "Pass Blocking"]
+    }
+};
+
+// Function to load a player's profile
+function loadPlayerProfile(playerName) {
+    const player = playerProfiles[playerName];
+    const mainContent = document.getElementById("main-content");
+
+    // Generate the player's profile dynamically
+    let profileHTML = `
+        <h1>${playerName}</h1>
+        <p>College: ${player.college}</p>
+        <p>Position: ${player.position}</p>
+        <p>Height: ${
+
