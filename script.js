@@ -191,13 +191,94 @@ const playerProfiles = {
 
 // Function to load a player's profile
 function loadPlayerProfile(playerName) {
+    const playerProfiles = {
+    "Ashton Jeanty": {
+        college: "Boise State",
+        position: "RB",
+        height: "5'8\"",
+        weight: "210 lbs",
+        skills: ["Vision", "Explosiveness", "Durability", "Pass Blocking", "Receiving"]
+    },
+    "Omarion Hampton": {
+        college: "North Carolina",
+        position: "RB",
+        height: "6'0\"",
+        weight: "220 lbs",
+        skills: ["Vision", "Power", "Burst", "Elusiveness", "Ball Security"]
+    },
+    "TreVeyon Henderson": {
+        college: "Ohio State",
+        position: "RB",
+        height: "5'10\"",
+        weight: "214 lbs",
+        skills: ["Vision", "Acceleration", "Agility", "Pass Protection", "Receiving"]
+    },
+    "Quinshon Judkins": {
+        college: "Ohio State",
+        position: "RB",
+        height: "5'11\"",
+        weight: "210 lbs",
+        skills: ["Vision", "Speed", "Elusiveness", "Physicality", "Durability"]
+    },
+    "Kaleb Johnson": {
+        college: "Iowa",
+        position: "RB",
+        height: "6'0\"",
+        weight: "225 lbs",
+        skills: ["Power", "Burst", "Vision", "Receiving", "Tackling Evasion"]
+    },
+    "Cameron Skattebo": {
+        college: "Arizona State",
+        position: "RB",
+        height: "5'10\"",
+        weight: "215 lbs",
+        skills: ["Vision", "Elusiveness", "Pass Blocking", "Speed", "Power"]
+    },
+    "Jo'Quavious Marks": {
+        college: "USC",
+        position: "RB",
+        height: "5'11\"",
+        weight: "205 lbs",
+        skills: ["Explosiveness", "Receiving", "Vision", "Agility", "Pass Blocking"]
+    }
+};
+
+// Function to load a player's profile dynamically
+function loadPlayerProfile(playerName) {
     const player = playerProfiles[playerName];
     const mainContent = document.getElementById("main-content");
 
-    // Generate the player's profile dynamically
+    // Generate player's profile dynamically
     let profileHTML = `
         <h1>${playerName}</h1>
         <p>College: ${player.college}</p>
         <p>Position: ${player.position}</p>
-        <p>Height: ${
+        <p>Height: ${player.height}</p>
+        <p>Weight: ${player.weight}</p>
+        <div class="skills">
+            <h2>Skills</h2>
+            ${player.skills
+                .map(skill => `
+                    <div>
+                        <label for="${skill.replace(/\s/g, "-").toLowerCase()}">${skill}: </label>
+                        <input type="range" id="${skill.replace(/\s/g, "-").toLowerCase()}" min="0" max="10" step="0.1" value="0">
+                        <span id="${skill.replace(/\s/g, "-").toLowerCase()}-value">0.0</span>
+                    </div>
+                `)
+                .join("")}
+        </div>
+        <button onclick="saveToBigBoard('${playerName}')">Add to Big Board</button>
+    `;
+
+    // Replace main content with the player's profile
+    mainContent.innerHTML = profileHTML;
+
+    // Attach slider functionality
+    document.querySelectorAll("input[type='range']").forEach(slider => {
+        slider.addEventListener("input", () => {
+            const valueSpan = document.getElementById(`${slider.id}-value`);
+            valueSpan.textContent = slider.value;
+        });
+    });
+}
 
