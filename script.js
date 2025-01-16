@@ -1,3 +1,4 @@
+// Page content for each section
 const pages = {
     home: `
         <h1>Welcome to FanScout Clone</h1>
@@ -5,7 +6,7 @@ const pages = {
     `,
     quarterbacks: `
         <h1>Quarterbacks</h1>
-        <div class="player-profile" id="player-TravisHunter">
+        <div class="player-profile">
             <h2>Travis Hunter</h2>
             <p>College: Colorado</p>
             <p>Height: 6'1"</p>
@@ -22,18 +23,13 @@ const pages = {
                     <input type="range" id="accuracy" min="0" max="10" step="0.1" value="0">
                     <span id="accuracy-value">0.0</span>
                 </div>
-                <div>
-                    <label for="pocket-presence">Pocket Presence: </label>
-                    <input type="range" id="pocket-presence" min="0" max="10" step="0.1" value="0">
-                    <span id="pocket-presence-value">0.0</span>
-                </div>
             </div>
             <button onclick="saveToBigBoard('Travis Hunter')">Add to Big Board</button>
         </div>
     `,
     runningbacks: `
         <h1>Running Backs</h1>
-        <div class="player-profile" id="player-AshtonJeanty">
+        <div class="player-profile">
             <h2>Ashton Jeanty</h2>
             <p>College: Boise State</p>
             <p>Height: 5'8"</p>
@@ -45,16 +41,6 @@ const pages = {
                     <input type="range" id="vision" min="0" max="10" step="0.1" value="0">
                     <span id="vision-value">0.0</span>
                 </div>
-                <div>
-                    <label for="explosiveness">Explosiveness: </label>
-                    <input type="range" id="explosiveness" min="0" max="10" step="0.1" value="0">
-                    <span id="explosiveness-value">0.0</span>
-                </div>
-                <div>
-                    <label for="durability">Durability: </label>
-                    <input type="range" id="durability" min="0" max="10" step="0.1" value="0">
-                    <span id="durability-value">0.0</span>
-                </div>
             </div>
             <button onclick="saveToBigBoard('Ashton Jeanty')">Add to Big Board</button>
         </div>
@@ -65,15 +51,38 @@ const pages = {
     `
 };
 
-// Load the content dynamically
+// Function to load a page dynamically
 function loadPage(page) {
     const mainContent = document.getElementById("main-content");
     mainContent.innerHTML = pages[page];
 
-    if (page === "bigboard") populateBigBoard();
+    // Populate the Big Board if on the Big Board page
+    if (page === "bigboard") {
+        populateBigBoard();
+    }
+
+    // Update slider values dynamically if sliders exist
+    const sliders = document.querySelectorAll("input[type='range']");
+    sliders.forEach(slider => {
+        slider.addEventListener("input", () => {
+            const valueSpan = document.getElementById(`${slider.id}-value`);
+            if (valueSpan) {
+                valueSpan.textContent = slider.value;
+            }
+        });
+    });
 }
 
-// Save a player to the Big Board
+// Event listener for navigation links
+document.querySelectorAll("nav ul li a").forEach(link => {
+    link.addEventListener("click", event => {
+        event.preventDefault();
+        const page = link.getAttribute("data-page");
+        loadPage(page);
+    });
+});
+
+// Save player data to the Big Board
 function saveToBigBoard(playerName) {
     const skills = {};
     document.querySelectorAll("input[type='range']").forEach(slider => {
