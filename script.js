@@ -1,62 +1,122 @@
-const positionGroups = [
-  {
-    position: "Quarterbacks",
-    traits: ["Arm Strength", "Accuracy", "Pocket Presence", "Decision Making", "Mobility"],
-    prospects: [
-      { name: "Travis Hunter", college: "Colorado", height: "6'1\"", weight: "185 lbs", year: "JR" },
-      { name: "Cameron Ward", college: "Miami FL", height: "6'3\"", weight: "220 lbs", year: "RSR" },
-      { name: "Shedeur Sanders", college: "Colorado", height: "6'2\"", weight: "215 lbs", year: "SR" }
-    ]
-  },
-  {
-    position: "Running Backs",
-    traits: ["Vision", "Explosiveness", "Pass Blocking", "Receiving Ability", "Durability"],
-    prospects: [
-      { name: "Ashton Jeanty", college: "Boise State", height: "5'8\"", weight: "210 lbs", year: "JR" },
-      { name: "Omarion Hampton", college: "North Carolina", height: "6'0\"", weight: "220 lbs", year: "JR" },
-      { name: "TreVeyon Henderson", college: "Ohio State", height: "5'10\"", weight: "214 lbs", year: "SR" }
-    ]
-  }
-  // Add other position groups and prospects here
-];
+const pages = {
+    home: `
+        <h1>Welcome to FanScout Clone</h1>
+        <p>Select a position group to start scouting.</p>
+    `,
+    quarterbacks: `
+        <h1>Quarterbacks</h1>
+        <div class="player-profile" id="player-TravisHunter">
+            <h2>Travis Hunter</h2>
+            <p>College: Colorado</p>
+            <p>Height: 6'1"</p>
+            <p>Weight: 185 lbs</p>
+            <div class="skills">
+                <h3>Skills</h3>
+                <div>
+                    <label for="arm-strength">Arm Strength: </label>
+                    <input type="range" id="arm-strength" min="0" max="10" step="0.1" value="0">
+                    <span id="arm-strength-value">0.0</span>
+                </div>
+                <div>
+                    <label for="accuracy">Accuracy: </label>
+                    <input type="range" id="accuracy" min="0" max="10" step="0.1" value="0">
+                    <span id="accuracy-value">0.0</span>
+                </div>
+                <div>
+                    <label for="pocket-presence">Pocket Presence: </label>
+                    <input type="range" id="pocket-presence" min="0" max="10" step="0.1" value="0">
+                    <span id="pocket-presence-value">0.0</span>
+                </div>
+            </div>
+            <button onclick="saveToBigBoard('Travis Hunter')">Add to Big Board</button>
+        </div>
+    `,
+    runningbacks: `
+        <h1>Running Backs</h1>
+        <div class="player-profile" id="player-AshtonJeanty">
+            <h2>Ashton Jeanty</h2>
+            <p>College: Boise State</p>
+            <p>Height: 5'8"</p>
+            <p>Weight: 210 lbs</p>
+            <div class="skills">
+                <h3>Skills</h3>
+                <div>
+                    <label for="vision">Vision: </label>
+                    <input type="range" id="vision" min="0" max="10" step="0.1" value="0">
+                    <span id="vision-value">0.0</span>
+                </div>
+                <div>
+                    <label for="explosiveness">Explosiveness: </label>
+                    <input type="range" id="explosiveness" min="0" max="10" step="0.1" value="0">
+                    <span id="explosiveness-value">0.0</span>
+                </div>
+                <div>
+                    <label for="durability">Durability: </label>
+                    <input type="range" id="durability" min="0" max="10" step="0.1" value="0">
+                    <span id="durability-value">0.0</span>
+                </div>
+            </div>
+            <button onclick="saveToBigBoard('Ashton Jeanty')">Add to Big Board</button>
+        </div>
+    `,
+    bigboard: `
+        <h1>Big Board</h1>
+        <div id="big-board"></div>
+    `
+};
 
-// Dynamically populate the position groups
-function populatePositions() {
-  const positionsSection = document.getElementById("positions");
+// Load the content dynamically
+function loadPage(page) {
+    const mainContent = document.getElementById("main-content");
+    mainContent.innerHTML = pages[page];
 
-  positionGroups.forEach((group) => {
-    const groupDiv = document.createElement("div");
-    groupDiv.classList.add("position-group");
+    if (page === "bigboard") populateBigBoard();
+}
 
-    const groupTitle = document.createElement("h3");
-    groupTitle.textContent = group.position;
-    groupDiv.appendChild(groupTitle);
-
-    const traitsList = document.createElement("ul");
-    group.traits.forEach((trait) => {
-      const traitItem = document.createElement("li");
-      traitItem.textContent = trait;
-      traitsList.appendChild(traitItem);
+// Save a player to the Big Board
+function saveToBigBoard(playerName) {
+    const skills = {};
+    document.querySelectorAll("input[type='range']").forEach(slider => {
+        const skillName = slider.id.replace(/-/g, " ");
+        skills[skillName] = slider.value;
     });
-    groupDiv.appendChild(traitsList);
 
-    const prospectsDiv = document.createElement("div");
-    prospectsDiv.classList.add("prospects");
-    const prospectsTitle = document.createElement("h4");
-    prospectsTitle.textContent = "Prospects:";
-    prospectsDiv.appendChild(prospectsTitle);
+    const playerData = { name: playerName, skills };
+    let bigBoard = JSON.parse(localStorage.getItem("bigBoard")) || [];
+    bigBoard.push(playerData);
+    localStorage.setItem("bigBoard", JSON.stringify(bigBoard));
 
-    const prospectsList = document.createElement("ul");
-    group.prospects.forEach((prospect) => {
-      const prospectItem = document.createElement("li");
-      prospectItem.textContent = `${prospect.name} (${prospect.college}) - ${prospect.height}, ${prospect.weight}, ${prospect.year}`;
-      prospectsList.appendChild(prospectItem);
+    alert(`${playerName} has been added to your Big Board!`);
+}
+
+// Populate the Big Board
+function populateBigBoard() {
+    const bigBoard = JSON.parse(localStorage.getItem("bigBoard")) || [];
+    const boardDiv = document.getElementById("big-board");
+
+    if (bigBoard.length === 0) {
+        boardDiv.innerHTML = "<p>No players on the Big Board yet.</p>";
+        return;
+    }
+
+    bigBoard.forEach(player => {
+        const playerDiv = document.createElement("div");
+        playerDiv.classList.add("player");
+
+        const playerName = document.createElement("h2");
+        playerName.textContent = player.name;
+        playerDiv.appendChild(playerName);
+
+        const skillsList = document.createElement("ul");
+        for (const [skill, rating] of Object.entries(player.skills)) {
+            const skillItem = document.createElement("li");
+            skillItem.textContent = `${skill}: ${rating}`;
+            skillsList.appendChild(skillItem);
+        }
+        playerDiv.appendChild(skillsList);
+
+        boardDiv.appendChild(playerDiv);
     });
-    prospectsDiv.appendChild(prospectsList);
-    groupDiv.appendChild(prospectsDiv);
-
-    positionsSection.appendChild(groupDiv);
-  });
 }
 
 document.addEventListener("DOMContentLoaded", populatePositions);
