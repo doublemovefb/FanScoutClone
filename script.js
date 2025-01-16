@@ -28,23 +28,33 @@ const pages = {
         </div>
     `,
     runningbacks: `
-        <h1>Running Backs</h1>
-        <div class="player-profile">
-            <h2>Ashton Jeanty</h2>
-            <p>College: Boise State</p>
-            <p>Height: 5'8"</p>
-            <p>Weight: 210 lbs</p>
-            <div class="skills">
-                <h3>Skills</h3>
-                <div>
-                    <label for="vision">Vision: </label>
-                    <input type="range" id="vision" min="0" max="10" step="0.1" value="0">
-                    <span id="vision-value">0.0</span>
-                </div>
-            </div>
-            <button onclick="saveToBigBoard('Ashton Jeanty')">Add to Big Board</button>
-        </div>
-    `,
+        const runningBacks = [
+    { name: "Ashton Jeanty", college: "Boise State", position: "RB" },
+    { name: "Omarion Hampton", college: "North Carolina", position: "RB" },
+    { name: "TreVeyon Henderson", college: "Ohio State", position: "RB" },
+    { name: "Quinshon Judkins", college: "Ohio State", position: "RB" },
+    { name: "Kaleb Johnson", college: "Iowa", position: "RB" },
+    { name: "Cameron Skattebo", college: "Arizona State", position: "RB" },
+    { name: "Jo'Quavious Marks", college: "USC", position: "RB" }
+];
+
+// Function to load running backs into the list
+function loadRunningBacks() {
+    const rbList = document.getElementById("rb-list");
+    runningBacks.forEach(rb => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+            <a href="#" onclick="loadPlayerProfile('${rb.name}')">
+                ${rb.name} - ${rb.college}
+            </a>
+        `;
+        rbList.appendChild(listItem);
+    });
+}
+
+// Call the function on page load
+document.addEventListener("DOMContentLoaded", loadRunningBacks);
+
     bigboard: `
         <h1>Big Board</h1>
         <div id="big-board"></div>
