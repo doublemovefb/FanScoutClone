@@ -117,3 +117,62 @@ document.querySelectorAll("nav ul li a").forEach(link => {
         loadPage(page);
     });
 });
+const players = {
+    quarterbacks: [
+        { name: "Player 1", college: "College A", height: "6'2\"", weight: "210 lbs" },
+        { name: "Player 2", college: "College B", height: "6'1\"", weight: "205 lbs" }
+    ],
+    runningbacks: [
+        { name: "Ashton Jeanty", college: "Boise State", height: "5'8\"", weight: "210 lbs" },
+        { name: "Omarion Hampton", college: "North Carolina", height: "6'0\"", weight: "220 lbs" }
+    ],
+    // Add other positions and players here
+};
+
+// Function to load players dynamically
+function loadPlayers(position) {
+    const mainContent = document.getElementById("main-content");
+    const positionPlayers = players[position] || [];
+    let playerListHTML = `<h1>${position.charAt(0).toUpperCase() + position.slice(1)}</h1><ul>`;
+    positionPlayers.forEach(player => {
+        playerListHTML += `
+            <li>
+                <a href="#" onclick="loadPlayerProfile('${position}', '${player.name}')">
+                    ${player.name} - ${player.college} (${player.height}, ${player.weight})
+                </a>
+            </li>
+        `;
+    });
+    playerListHTML += "</ul>";
+    mainContent.innerHTML = playerListHTML;
+}
+
+// Function to load individual player profiles
+function loadPlayerProfile(position, playerName) {
+    const player = players[position].find(p => p.name === playerName);
+    const mainContent = document.getElementById("main-content");
+
+    const profileHTML = `
+        <h1>${player.name}</h1>
+        <p>College: ${player.college}</p>
+        <p>Position: ${position.charAt(0).toUpperCase() + position.slice(1)}</p>
+        <p>Height: ${player.height}</p>
+        <p>Weight: ${player.weight}</p>
+        <button onclick="saveToBigBoard('${player.name}')">Add to Big Board</button>
+    `;
+
+    mainContent.innerHTML = profileHTML;
+}
+
+// Save player to Big Board
+function saveToBigBoard(playerName) {
+    let bigBoard = JSON.parse(localStorage.getItem("bigBoard")) || [];
+    if (!bigBoard.includes(playerName)) {
+        bigBoard.push(playerName);
+        localStorage.setItem("bigBoard", JSON.stringify(bigBoard));
+        alert(`${playerName} added to Big Board.`);
+    } else {
+        alert(`${playerName} is already on the Big Board.`);
+    }
+}
+
