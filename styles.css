@@ -119,6 +119,71 @@ header nav ul li a:hover {
     color: #555;
 }
 
+/* Position Groups Section */
+#positions {
+    padding: 50px 20px;
+    background: #f1f1f1;
+}
+
+#positions h2 {
+    font-size: 32px;
+    text-align: center;
+    color: #0099ff;
+    margin-bottom: 30px;
+}
+
+.position-group {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.position-group h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.position-group ul {
+    margin: 10px 0;
+    padding: 0 20px;
+    list-style: disc;
+}
+
+.position-group ul li {
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #555;
+}
+
+.prospects {
+    margin-top: 20px;
+}
+
+.prospects h4 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.prospects ul {
+    list-style: none;
+    padding: 0;
+}
+
+.prospects ul li {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 8px;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
 /* About Section */
 #about {
     padding: 50px 20px;
