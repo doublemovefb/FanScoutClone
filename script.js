@@ -118,6 +118,3 @@ function populateBigBoard() {
         boardDiv.appendChild(playerDiv);
     });
 }
-
-document.addEventListener("DOMContentLoaded", populatePositions);
-
