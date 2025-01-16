@@ -14,6 +14,28 @@ body {
     padding: 0;
 }
 
+#rb-list {
+    list-style: none;
+    padding: 0;
+}
+
+#rb-list li {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+#rb-list li a {
+    color: #0066ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+#rb-list li a:hover {
+    color: #ff9800;
+    text-decoration: underline;
+}
+
+
 /* Header */
 header {
     background: #222;
