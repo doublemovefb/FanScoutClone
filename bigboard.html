@@ -1,0 +1,25 @@
+function populateBigBoard() {
+    const bigBoard = JSON.parse(localStorage.getItem("bigBoard")) || [];
+    const boardDiv = document.getElementById("big-board");
+
+    if (bigBoard.length === 0) {
+        boardDiv.innerHTML = "<p>No players on the Big Board yet.</p>";
+        return;
+    }
+
+    boardDiv.innerHTML = bigBoard
+        .map(player => `
+            <div class="player">
+                <h2>${player.name}</h2>
+                <p>College: ${player.college}</p>
+                <p>Position: ${player.position}</p>
+                <h3>Skills:</h3>
+                <ul>
+                    ${Object.entries(player.skills)
+                        .map(([skill, rating]) => `<li>${skill}: ${rating}</li>`)
+                        .join("")}
+                </ul>
+            </div>
+        `)
+        .join("");
+}
